@@ -67,5 +67,18 @@ public class TestMimeTypeUtil {
         // Detect MP4 files
         path = Paths.get(ClassLoader.getSystemResource("file/video.mp4").toURI());
         Assert.assertEquals(MimeType.VIDEO_MP4, MimeTypeUtil.guessMimeType(path, "video.mp4"));
+
+    }
+    @Test
+    public void testExtension() throws Exception{
+        // get MP4 files
+        Assert.assertEquals("docx", MimeTypeUtil.getFileExtension(MimeType.VIDEO_MP4));
+
+        Assert.assertEquals("zip", MimeTypeUtil.getFileExtension(MimeType.APPLICATION_ZIP));
+
+        // get MP4 files
+        Assert.assertEquals("gif", MimeTypeUtil.getFileExtension(MimeType.IMAGE_GIF));
     }
 }
+
+
