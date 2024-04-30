@@ -6,6 +6,11 @@ pipeline {
         sh 'mvn -B -DskipTests clean package'
       }
     }
+    stage('Doc') {
+            steps {
+                sh 'mvn javadoc:javadoc'
+            }
+        }
     stage('pmd') {
       steps {
         sh 'mvn pmd:pmd'
@@ -13,17 +18,7 @@ pipeline {
     }
    stage('Test') {
             steps {
-                sh 'mvn -B test'
-            }
-        }
-     stage('Generate Reports') {
-            steps {
-                sh 'mvn surefire-report:report'
-            }
-        }
-    stage('Javadoc') {
-            steps {
-                sh 'mvn javadoc:javadoc javadoc:jar'
+                sh 'mvn test'
             }
         }
   }
@@ -33,7 +28,8 @@ post {
     archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
     archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
     archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', fingerprint: true
-            archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
+    archiveArtifacts artifacts: '**/target/site/apidocs/**', fingerprint: true
+    archiveArtifacts artifacts: '**/target/surefire-reports/TEST-*.xml', fingerprint: true
   }
 }
 }
